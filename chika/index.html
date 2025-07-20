@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chika Asisten Suara</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Impor pustaka ikon Font Awesome untuk ikon mikrofon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+
+    <!-- Layar Pemuatan -->
+    <div id="loading-screen">
+        <img src="chikaicon/jqe10jjqe10jjqe1.webp" alt="Memuat Chika...">
+    </div>
+
+    <!-- Latar Belakang Video -->
+    <div class="video-container">
+        <!-- Hapus atribut 'muted' agar video dapat memutar suara -->
+        <video autoplay class="bg-video active" id="video1">
+            <source src="asset/3D image.mp4" type="video/mp4">
+            Browser Anda tidak mendukung tag video.
+        </video>
+        <video class="bg-video" id="video2">
+            <source src="" type="video/mp4">
+            Browser Anda tidak mendukung tag video.
+        </video>
+    </div>
+
+    <!-- Lapisan konten, melapisi bagian atas video -->
+    <div class="content-overlay">
+
+        <!-- Bilah Kesukaan Teratas -->
+        <header class="top-bar">
+            <label for="favorability-bar">Kemudahan</label>
+            <div class="progress-container">
+                <div class="progress-fill" id="favorability-bar"></div>
+            </div>
+        </header>
+
+        <!-- Area tampilan hasil pengenalan suara -->
+        <div class="transcript-container">
+            <p id="transcript"></p>
+        </div>
+
+        <!-- Area pengujian analisis sentimen -->
+        <div class="sentiment-analysis-container">
+            <input type="text" id="sentiment-input" placeholder="Ketikkan beberapa teks untuk saya...">
+            <button id="analyze-button">Menganalisis sentimen</button>
+            <p id="sentiment-result"></p>
+        </div>
+
+        <!-- Area pengujian pengenalan suara lokal -->
+        <div id="local-asr-container" class="local-asr-container">
+            <button id="local-mic-button">Mulai suara lokal</button>
+            <p>Hasil suara lokal: <span id="local-asr-result"></span></p>
+        </div>
+
+        <!-- Bola Mengambang -->
+        <div id="floating-button">
+            <i class="fas fa-bars"></i>
+        </div>
+
+        <!-- Menu mengambang -->
+        <div id="menu-container" class="hidden">
+            <button class="menu-item" data-video="asset/chabi-lalu tersenyum dan bergoyang anggun dari sisi ke sisi.mp4">Pose</button>
+            <button class="menu-item" data-video="asset/sorak-sorai.mp4">Cheer</button>
+            <button class="menu-item" data-video="asset/tari.mp4">Dance</button>
+        </div>
+
+        <!-- Mikrofon bawah dan tautan -->
+        <footer class="bottom-bar">
+            <button class="mic-button" id="mic-button" aria-label="Mulai Mendengarkan">
+                <i class="fas fa-microphone"></i>
+            </button>
+            <a href="https://github.com/zerocool979" target="_blank" rel="noopener noreferrer" class="footer-credit">
+                @zerocool979
+            </a>
+        </footer>
+
+    </div>
+
+    <script type="module" src="script.js"></script>
+</body>
+</html>

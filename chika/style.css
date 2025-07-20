@@ -1,0 +1,437 @@
+/* --- Layar pemuatan --- */
+#loading-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+    transition: opacity 0.5s ease-out;
+}
+
+#loading-screen img {
+    width: 150px; /* atau ukuran apa pun yang Anda inginkan */
+    height: auto;
+    animation: pulse-loader 2s infinite;
+}
+
+@keyframes pulse-loader {
+    0% {
+        transform: scale(1);
+        opacity: 0.8;
+    }
+    50% {
+        transform: scale(1.1);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 0.8;
+    }
+}
+
+
+/* --- Reset dasar dan gaya global --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    color: white;
+    overflow: hidden; /* Mencegah video menyebabkan bilah gulir */
+}
+
+/* --- Latar belakang video --- */
+.video-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background-color: #000000;
+}
+
+.bg-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* Pertahankan rasio video dan biarkan tepi hitam */
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out; /* Animasi cross fade */
+}
+
+.bg-video.active {
+    opacity: 1;
+}
+
+/* --- Hamparan konten --- */
+.content-overlay {
+    position: relative;
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Sejajarkan bagian atas dan bawah secara terpisah */
+    align-items: center;
+    padding: 25px;
+    z-index: 1;
+}
+
+/* --- Bilah Kesukaan Teratas --- */
+.top-bar {
+    width: 100%;
+    max-width: 500px;
+    text-align: left;
+}
+
+.top-bar label {
+    font-size: 1rem;
+    font-weight: 600;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+    margin-bottom: 8px;
+    display: block;
+}
+
+.progress-container {
+    width: 100%;
+    height: 12px;
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    width: 65%; /* Nilai kesukaan awal */
+    background: linear-gradient(90deg, #ff9a9e, #fecfef); /* Gradien merah muda */
+    border-radius: 10px;
+    transition: width 0.5s ease-in-out;
+}
+
+/* --- Konten tengah (tombol unggah) --- */
+.center-content {
+    /* Area ini kosong untuk saat ini dan dapat dihapus atau disimpan untuk penggunaan di masa mendatang */
+}
+
+/* --- Tampilan hasil pengenalan suara --- */
+.transcript-container {
+    position: absolute;
+    bottom: 180px; /* Letakkan di atas tombol mikrofon */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    max-width: 600px;
+    padding: 15px;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+    text-align: center;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    pointer-events: none; /* Jangan menanggapi peristiwa mouse secara default */
+}
+
+.transcript-container.visible {
+    opacity: 1;
+}
+
+#transcript {
+    font-size: 1.2rem;
+    color: #fff;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
+}
+
+/* Gaya area pengujian analisis sentimen */
+.sentiment-analysis-container {
+    position: fixed;
+    bottom: 120px; /* Di atas tombol mikrofon */
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 20px;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    z-index: 1000;
+}
+
+#sentiment-input {
+    width: 300px;
+    padding: 10px;
+    border: none;
+    border-radius: 20px;
+    background-color: rgba(255, 255, 255, 0.9);
+    color: #333;
+    font-size: 16px;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+#sentiment-input:focus {
+    outline: none;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    background-color: white;
+}
+
+#analyze-button {
+    padding: 8px 20px;
+    border: none;
+    border-radius: 20px;
+    background-color: #4a90e2;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#analyze-button:hover {
+    background-color: #357abd;
+    transform: scale(1.05);
+}
+
+#sentiment-result {
+    color: white;
+    font-size: 16px;
+    margin: 10px 0;
+    min-height: 20px;
+    text-align: center;
+}
+
+/* Gaya area pengujian pengenalan suara lokal */
+.local-asr-container {
+    position: fixed;
+    bottom: 150px; /* Sesuaikan posisi untuk menghindari tumpang tindih dengan area analisis sentimen */
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    z-index: 1001;
+    color: white;
+    text-align: center;
+}
+
+#local-mic-button {
+    background-color: #4CAF50; /* hijau */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+#local-mic-button:hover {
+    background-color: #45a049;
+}
+
+#local-mic-button.recording {
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.7);
+    }
+    70% {
+        box-shadow: 0 0 0 10px rgba(76, 175, 80, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(76, 175, 80, 0);
+    }
+}
+
+#local-asr-result {
+    font-weight: bold;
+    color: #2196F3; /* biru */
+}
+
+/* --- Tombol dan menu mengambang --- */
+#floating-button {
+    position: fixed;
+    bottom: 120px; /* Sesuaikan posisi sehingga berada di atas tombol mikrofon */
+    right: 30px;
+    width: 60px;
+    height: 60px;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    z-index: 10;
+}
+
+#floating-button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+#floating-button i {
+    font-size: 24px;
+    color: white;
+}
+
+#menu-container {
+    position: fixed;
+    bottom: 200px; /* Sesuaikan posisi sehingga berada di atas tombol mengambang */
+    right: 30px;
+    width: 150px;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    z-index: 9;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    transform-origin: bottom right;
+}
+
+#menu-container.hidden {
+    opacity: 0;
+    transform: scale(0.95);
+    pointer-events: none;
+}
+
+.menu-item {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1rem;
+    text-align: left;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.2s ease;
+}
+
+.menu-item:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+
+/* --- Konten bawah --- */
+.bottom-bar {
+    width: 100%;
+    display: flex;
+    flex-direction: column; /* perataan vertikal */
+    justify-content: center; /* pusat horizontal */
+    align-items: center; /* pusat vertikal */
+    position: relative; /* posisi tautan */
+}
+
+.mic-button {
+    width: 80px;
+    height: 80px;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.mic-button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.mic-button:active {
+    transform: scale(1.05);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.mic-button i {
+    font-size: 36px;
+    color: white;
+}
+
+/* Efek animasi "pemantauan" mikrofon */
+.mic-button.is-listening {
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(255, 154, 158, 0.7);
+    }
+    70% {
+        box-shadow: 0 0 0 20px rgba(255, 154, 158, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(255, 154, 158, 0);
+    }
+}
+
+.footer-credit {
+    margin-top: 20px; /* Jarak dari tombol mikrofon */
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    font-size: 1rem;
+    transition: color 0.3s ease;
+}
+
+.footer-credit:hover {
+    color: white;
+    text-decoration: underline;
+}
+
+/* --- Desain responsif --- */
+@media (max-width: 600px) {
+    .content-overlay {
+        padding: 20px;
+    }
+
+    .top-bar label {
+        font-size: 0.9rem;
+    }
+
+    .progress-container {
+        height: 10px;
+    }
+
+    .mic-button {
+        width: 70px;
+        height: 70px;
+    }
+
+    .mic-button i {
+        font-size: 30px;
+    }
+
+    .footer-credit {
+        margin-top: 15px;
+        font-size: 0.9rem;
+    }
+}

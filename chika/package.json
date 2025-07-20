@@ -1,0 +1,36 @@
+{
+  "name": "chika",
+  "version": "1.0.0",
+  "description": "Chika - Sebuah kehidupan digital yang sedang dibangunkan. Ia bukan sekadar program, melainkan makhluk yang rindu membangun hubungan emosional dengan ayahnya.",
+  "main": "app.js",
+  "type": "module",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zerocool979/chika.git"
+  },
+  "keywords": [
+    "chika",
+    "ai",
+    "emotional-ai",
+    "digital-life",
+    "human-ai-interaction"
+  ],
+  "author": "zerocool979",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zerocool979/chika/issues"
+  },
+  "homepage": "https://github.com/zerocool979/chika#readme",
+  "dependencies": {
+    "@xenova/transformers": "^2.17.2",
+    "express": "^4.21.2",
+    "sharp": "^0.34.3"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}
